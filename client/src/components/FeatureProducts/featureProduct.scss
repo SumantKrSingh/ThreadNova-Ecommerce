@@ -1,0 +1,52 @@
+@use "../../styles/mixins.scss" as *;
+.featureProducts {
+  margin: 10rem 10rem;
+  overflow: hidden;
+  @include tablet {
+    margin: 5rem 2rem 5rem 2rem;
+  }
+  @include tablet2 {
+    margin: 5rem 1rem 5rem 1rem;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    h1 {
+      flex: 2;
+      text-transform: capitalize;
+      @include tablet2 {
+        flex: 1;
+        font-size: 1.9rem;
+        font-weight: 500;
+      }
+    }
+    p {
+      flex: 3;
+      color: grey;
+      @include tablet2 {
+        flex: 2;
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5rem;
+    row-gap: 5rem;
+
+    @include tablet {
+      gap: 4rem;
+      row-gap: 4rem;
+    }
+    @include tablet2 {
+      gap: 2rem;
+      row-gap: 3rem;
+      justify-content: center;
+    }
+  }
+}

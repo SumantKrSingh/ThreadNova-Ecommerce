@@ -1,0 +1,58 @@
+@use "../../styles/mixins.scss" as *;
+.products {
+  padding: 3rem 5rem;
+  display: flex;
+
+  @include mobile {
+    padding: 3rem 2rem;
+  }
+
+  .left {
+    flex: 1;
+    position: sticky;
+    height: 100%;
+    top: 12rem;
+
+    .filterItem {
+      margin-bottom: 3rem;
+
+      h2 {
+        font-weight: 400;
+        margin-bottom: 2rem;
+      }
+
+      .inputItem {
+        margin-bottom: 1rem;
+        span {
+          display: flex;
+          align-items: center;
+          color: blue;
+        }
+
+        label {
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  .right {
+    flex: 3;
+
+    @include mobile {
+      flex: 1;
+    }
+
+    .catImg {
+      width: 100%;
+      height: 30rem;
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: 5rem;
+
+      @include mobile {
+        height: 10rem;
+      }
+    }
+  }
+}

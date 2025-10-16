@@ -1,0 +1,305 @@
+@use "../../styles/mixins.scss" as *;
+.navbar {
+  height: 7rem;
+  background-color: var(--nav-bg);
+  position: sticky;
+  margin-bottom: 1rem;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 999;
+  color: var(--text);
+
+  @include mobile {
+    height: 5rem;
+  }
+
+  .wrapper {
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    @include mobile {
+      padding: 1rem 2rem;
+    }
+    // Menu Icon
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      z-index: 1002;
+      color: var(--text);
+
+      @include tablet2 {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+
+      .theme-icon {
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+      .theme-icon-switch {
+        transform: rotate(180deg);
+        opacity: 0.7;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .left {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+
+      @include tablet {
+        display: none;
+      }
+
+      img {
+        height: 3rem;
+        width: 3rem;
+      }
+    }
+    .center {
+      display: flex;
+      align-items: center;
+      font-size: 3rem;
+
+      // @include tablet2 {
+      //   position: absolute;
+      //   left: 50%;
+      //   transform: translateX(-50%);
+      // }
+
+      @include mobile {
+        font-size: 1.5rem;
+      }
+
+      img {
+        width: auto;
+        height: 5rem;
+        object-fit: cover;
+
+        @include mobile {
+          height: 4rem;
+        }
+      }
+    }
+    .right {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+
+      @include tablet2 {
+        display: none;
+      }
+
+      li {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 2px;
+          width: 0;
+          background-color: red;
+          transition: all 0.3s ease-in;
+        }
+        &:hover::after {
+          transition: all 0.3s ease-out;
+          width: 100%;
+        }
+      }
+      .icons {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--textLite);
+        cursor: pointer;
+      }
+
+      .cartIcon {
+        position: relative;
+        span {
+          font-size: 1rem;
+          border-radius: 50%;
+          background-color: red;
+          height: 1.7rem;
+          width: 1.7rem;
+          position: absolute;
+          right: -1rem;
+          top: -1.1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .mobile-cart-icon {
+      display: none;
+      cursor: pointer;
+      position: relative;
+      color: var(--text);
+
+      @include tablet2 {
+        display: block;
+      }
+
+      span {
+        font-size: 1rem;
+        border-radius: 50%;
+        background-color: red;
+        height: 1.7rem;
+        width: 1.7rem;
+        position: absolute;
+        right: -1rem;
+        top: -1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.785);
+    z-index: 995;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 35rem;
+    height: 100vh;
+    background-color: var(--nav-bg);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    @include mobile {
+      width: 85%;
+    }
+
+    &.active {
+      left: 0;
+    }
+
+    .mobile-menu-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      padding: 8rem 2rem 2rem;
+
+      .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--textLite);
+
+        a {
+          font-size: 2rem;
+          font-weight: 500;
+          padding: 1rem 0;
+          transition: color 0.3s ease, transform 0.2s ease;
+          color: var(--text);
+        }
+      }
+
+      .mobile-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--textLite);
+
+        h3 {
+          color: var(--textLite);
+          letter-spacing: 1px;
+        }
+
+        a {
+          font-size: 1.8rem;
+          color: var(--text);
+          padding: 0.8rem 0;
+          transition: color 0.3s ease, transform 0.2s ease;
+        }
+      }
+
+      .mobile-icons {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--textLite);
+
+        .mobile-icon-item {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          cursor: pointer;
+          padding: 1rem 0;
+        }
+        span {
+          font-size: 1.8rem;
+          font-weight: 500;
+        }
+      }
+
+      .mobile-settings {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .mobile-setting-item {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          cursor: pointer;
+          padding: 1rem 0;
+
+          img {
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+
+          span {
+            font-size: 1.8rem;
+          }
+        }
+      }
+    }
+  }
+}
