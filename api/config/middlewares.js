@@ -13,21 +13,17 @@
 
 module.exports = [
   'strapi::errors',
+  'strapi::security',
   {
-    name: 'strapi::security',
+    name: 'strapi::cors',
     config: {
-      contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-          'connect-src': ["'self'", 'https:', 'http:', 'data:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'https:'],
-          'media-src': ["'self'", 'data:', 'blob:', 'https:'],
-          upgradeInsecureRequests: null,
-        },
-      },
+      enabled: true,
+      origin: [
+        'https://threadnova-ecommerce.onrender.com',
+        'http://localhost:1337',
+      ],
     },
   },
-  'strapi::cors',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
