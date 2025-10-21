@@ -21,4 +21,10 @@ module.exports = ({ env }) => ({
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
   allowedHosts: ['threadnova-ecommerce.onrender.com'],
+  settings: {
+    cors: {
+      origin: ['https://threadnova-ecommerce.onrender.com'],
+    },
+  },
+
 });
