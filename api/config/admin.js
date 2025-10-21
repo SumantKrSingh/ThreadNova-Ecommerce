@@ -24,12 +24,6 @@
 module.exports = ({ env }) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET'),
-    sessions: {
-      maxRefreshTokenLifespan: 30 * 24 * 60 * 60 * 1000, // 30 days
-      maxSessionLifespan: 7 * 24 * 60 * 60 * 1000, // 7 days
-      // FIX: Set secure cookies only in production
-      cookieSecure: env('NODE_ENV') === 'production',
-    },
   },
   apiToken: {
     salt: env('API_TOKEN_SALT'),
