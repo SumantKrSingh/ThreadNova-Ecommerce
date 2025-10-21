@@ -20,5 +20,5 @@ module.exports = ({ env }) => ({
     keys: env.array('APP_KEYS'),
   },
   proxy: true,
-  allowedHosts: ['.onrender.com', 'threadnova-ecommerce.onrender.com'],
+  allowedHosts: ['.onrender.com', 'threadnova-ecommerce.onrender.com', "*"],
 });
