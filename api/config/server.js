@@ -8,6 +8,10 @@
 //     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
 //   },
 // });
+
+
+// for diployment
+
 module.exports = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
@@ -16,5 +20,5 @@ module.exports = ({ env }) => ({
     keys: env.array('APP_KEYS'),
   },
   proxy: true,
-  allowedHosts: ['threadnova-ecommerce.onrender.com', '.threadnova-ecommerce.onrender.com', 'localhost'],
+  allowedHosts: ['.onrender.com', 'threadnova-ecommerce.onrender.com'],
 });

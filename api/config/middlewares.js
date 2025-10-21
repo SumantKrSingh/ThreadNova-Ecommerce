@@ -11,19 +11,18 @@
 //   'strapi::public',
 // ];
 
+// For diployment
+
 module.exports = [
   'strapi::errors',
-  'strapi::security',
   {
     name: 'strapi::cors',
     config: {
       enabled: true,
-      origin: [
-        'https://threadnova-ecommerce.onrender.com',
-        'http://localhost:1337',
-      ],
+      origin: ['https://threadnova-ecommerce.onrender.com', 'http://localhost:1337'],
     },
   },
+  'strapi::security',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
