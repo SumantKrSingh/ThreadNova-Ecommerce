@@ -12,28 +12,34 @@
 // ];
 
 // For diployment
-
 module.exports = [
   'strapi::logger',
   'strapi::errors',
   'strapi::security',
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: [
+        'https://threadnova-ecommerce.onrender.com',
+        'http://localhost:1337',
+        'http://localhost:5173'
+      ],
+      credentials: true,
+    },
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
+  'global::force-insecure-cookies', // ← ADD THIS CUSTOM MIDDLEWARE
   {
     name: 'strapi::session',
     config: {
       key: 'strapi.sid',
       maxAge: 86400000,
-      autoCommit: true,
-      overwrite: true,
+      secure: false, // ← FORCE NON-SECURE
       httpOnly: true,
-      signed: true,
-      rolling: false,
-      renew: false,
-      secure: false, // ← CRITICAL FIX
       sameSite: 'lax',
+      signed: true,
     },
   },
   'strapi::favicon',

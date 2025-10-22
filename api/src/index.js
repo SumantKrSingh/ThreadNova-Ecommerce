@@ -18,39 +18,36 @@
 //    */
 //   bootstrap(/*{ strapi }*/) {},
 // };
+'use strict';
 
 module.exports = {
   register({ strapi }) {
-    // Patch the session middleware to force secure: false
-    const originalSessionMiddleware = strapi.server.use;
-    strapi.server.use = function (middleware) {
-      if (middleware && middleware.name === 'session') {
-        // Force secure to false
-        if (middleware.options) {
-          middleware.options.secure = false;
-        }
-      }
-      return originalSessionMiddleware.call(this, middleware);
-    };
+    // Runs before initialization
   },
 
   bootstrap({ strapi }) {
-    // Override cookie options globally
-    const originalSetCookie = strapi.server.httpServer.on;
-    if (strapi.server.httpServer) {
-      strapi.server.httpServer.on('request', (req, res) => {
-        const originalSetHeader = res.setHeader;
-        res.setHeader = function (name, value) {
-          if (name.toLowerCase() === 'set-cookie') {
-            if (Array.isArray(value)) {
-              value = value.map(cookie => cookie.replace(/;\s*secure/i, ''));
-            } else if (typeof value === 'string') {
-              value = value.replace(/;\s*secure/i, '');
-            }
-          }
-          return originalSetHeader.call(this, name, value);
+    // Patch admin auth service to disable secure cookies
+    const adminAuthService = strapi.admin?.services?.auth;
+
+    if (adminAuthService && adminAuthService.createRefreshSession) {
+      const originalCreateRefreshSession = adminAuthService.createRefreshSession;
+
+      adminAuthService.createRefreshSession = async function (ctx, user) {
+        const originalSet = ctx.cookies.set;
+        ctx.cookies.set = function (name, value, options = {}) {
+          options.secure = false;
+          options.sameSite = 'lax';
+          return originalSet.call(this, name, value, options);
         };
-      });
+
+        try {
+          return await originalCreateRefreshSession.call(this, ctx, user);
+        } finally {
+          ctx.cookies.set = originalSet;
+        }
+      };
+
+      console.log('✅ Patched admin session to disable secure cookies');
     }
   },
 };
