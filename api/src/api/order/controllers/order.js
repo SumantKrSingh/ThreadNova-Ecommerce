@@ -1,14 +1,22 @@
-
 "use strict";
 
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+if (!process.env.STRIPE_KEY) {
+    console.error('❌ STRIPE_KEY is not set in environment variables!');
+}
+
+const stripe = require("stripe")(process.env.STRIPE_KEY || 'placeholder');
 const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     async create(ctx) {
         try {
-            const { products } = ctx.request.body;
+            // Check if Stripe is configured
+            if (!process.env.STRIPE_KEY) {
+                ctx.response.status = 500;
+                return { error: "Stripe is not configured" };
+            }
 
+            const { products } = ctx.request.body;
 
             const lineItems = await Promise.all(
                 products.map(async (product) => {
@@ -59,8 +67,9 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
             return { stripeSession: session };
         } catch (err) {
+            console.error('Stripe Error:', err); // Better error logging
             ctx.response.status = 500;
-            return err;
+            return { error: err.message };
         }
     },
 }));
