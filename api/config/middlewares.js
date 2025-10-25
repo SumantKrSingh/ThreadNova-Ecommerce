@@ -1,47 +1,63 @@
+// module.exports = [
+//   'strapi::logger',
+//   'strapi::errors',
+//   'strapi::security',
+//   'strapi::cors',
+//   'strapi::poweredBy',
+//   'strapi::query',
+//   'strapi::body',
+//   'strapi::session',
+//   'strapi::favicon',
+//   'strapi::public',
+// ];
+
+// // For diployment
+
 module.exports = [
-  'strapi::logger',
   'strapi::errors',
-  'strapi::security',
-  'strapi::cors',
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'connect-src': ["'self'", 'https:'],
+          'img-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://stylish-basket-4e6739a8e1.media.strapiapp.com',
+            'https://thread-nova-ecommerce.vercel.app',
+          ],
+          'media-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://stylish-basket-4e6739a8e1.media.strapiapp.com',
+          ],
+          upgradeInsecureRequests: null,
+        },
+      },
+    },
+  },
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: [
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'https://thread-nova-ecommerce.vercel.app',
+      ],
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+      keepHeaderOnError: true,
+    },
+  },
   'strapi::poweredBy',
+  'strapi::logger',
   'strapi::query',
   'strapi::body',
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
 ];
-
-// // For diployment
-// module.exports = [
-//   'strapi::logger',
-//   'strapi::errors',
-//   'strapi::security',
-//   {
-//     name: 'strapi::cors',
-//     config: {
-//       origin: [
-//         'https://threadnova-ecommerce.onrender.com',
-//         'http://localhost:1337',
-//         'http://localhost:5173'
-//       ],
-//       credentials: true,
-//     },
-//   },
-//   'strapi::poweredBy',
-//   'strapi::query',
-//   'strapi::body',
-//   'global::force-insecure-cookies', // ← ADD THIS CUSTOM MIDDLEWARE
-//   {
-//     name: 'strapi::session',
-//     config: {
-//       key: 'strapi.sid',
-//       maxAge: 86400000,
-//       secure: false, // ← FORCE NON-SECURE
-//       httpOnly: true,
-//       sameSite: 'lax',
-//       signed: true,
-//     },
-//   },
-//   'strapi::favicon',
-//   'strapi::public',
-// ];
