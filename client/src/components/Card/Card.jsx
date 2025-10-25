@@ -2,8 +2,6 @@ import "./card.scss";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../Utils/imageHelper";
 function Card({ item }) {
-  console.log("Image data:", item.img, item.img2);
-  console.log("Image URL:", item.img?.url, item.img2?.url);
   return (
     <>
       <Link to={`/product/${item.id}`}>

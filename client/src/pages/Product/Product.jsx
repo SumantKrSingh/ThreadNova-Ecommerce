@@ -5,7 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CompareSharpIcon from "@mui/icons-material/CompareSharp";
 import { useParams } from "react-router-dom";
 import useFetch from "../../components/Hooks/useFetch";
-import { UPLOAD_URL } from "../../config";
+import { getImageUrl } from "../../components/Utils/imageHelper";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
@@ -30,14 +30,14 @@ function Product() {
         <div className="images">
           {product?.img?.url && (
             <img
-              src={UPLOAD_URL + product.img.url}
+              src={getImageUrl(product.img.url)}
               alt="Thumbnail 1"
               onClick={() => setSelectedImage("img")}
             />
           )}
           {product?.img2?.url && (
             <img
-              src={UPLOAD_URL + product.img2.url}
+              src={getImageUrl(product.img2.url)}
               alt="Thumbnail 2"
               onClick={() => setSelectedImage("img2")}
             />
@@ -45,7 +45,7 @@ function Product() {
         </div>
         <div className="mainImage">
           <img
-            src={UPLOAD_URL + product[selectedImage]?.url}
+            src={getImageUrl(product[selectedImage]?.url)}
             alt="Main product"
           />
         </div>
@@ -76,7 +76,7 @@ function Product() {
                 title: product.title,
                 price: product.price,
                 desc: product.desc,
-                img: product.img.url,
+                img: getImageUrl(product.img.url),
                 quantity: quantity,
               })
             )

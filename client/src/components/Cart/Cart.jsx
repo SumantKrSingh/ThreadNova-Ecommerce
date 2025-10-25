@@ -1,9 +1,9 @@
 import "./cart.scss";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useDispatch, useSelector } from "react-redux";
-import { UPLOAD_URL } from "../../config";
 import { removeItem, resetCart } from "../../redux/cartReducer";
 import { stripeRequest } from "../../stripeRequest";
+import { getImageUrl } from "../Utils/imageHelper";
 
 function Cart() {
   const products = useSelector((state) => state.cart.products);
@@ -31,7 +31,7 @@ function Cart() {
       <div className="cartItems">
         {products?.map((item) => (
           <div className="item" key={item.id}>
-            <img src={UPLOAD_URL + item.img} alt={item.title} />
+            <img src={getImageUrl(item.img)} alt={item.title} />
             <div className="details">
               <h1>{item.title}</h1>
               <p>
