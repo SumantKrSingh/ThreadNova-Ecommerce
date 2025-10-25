@@ -1,8 +1,9 @@
 import "./card.scss";
 import { Link } from "react-router-dom";
-import { UPLOAD_URL } from "../../config";
-
+import { getImageUrl } from "../Utils/imageHelper";
 function Card({ item }) {
+  console.log("Image data:", item.img, item.img2);
+  console.log("Image URL:", item.img?.url, item.img2?.url);
   return (
     <>
       <Link to={`/product/${item.id}`}>
@@ -10,12 +11,12 @@ function Card({ item }) {
           <div className="images">
             {item?.isNew && <span>New Season</span>}
             <img
-              src={`${UPLOAD_URL}${item.img2?.url}`}
+              src={getImageUrl(item.img2?.url)}
               alt="img"
               className="mainImg"
             />
             <img
-              src={`${UPLOAD_URL}${item.img?.url}`}
+              src={getImageUrl(item.img?.url)}
               alt=""
               className="secondImg"
             />
