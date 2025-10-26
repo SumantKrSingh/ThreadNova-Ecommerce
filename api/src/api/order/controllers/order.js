@@ -7,10 +7,8 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     async create(ctx) {
         try {
             console.log('📦 Payment request received');
-            console.log('STRIPE_KEY exists:', !!process.env.STRIPE_KEY);
-
+            
             const { products } = ctx.request.body;
-            console.log('Products received:', products?.length);
 
             if (!products || products.length === 0) {
                 ctx.response.status = 400;
@@ -19,18 +17,13 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
             const lineItems = await Promise.all(
                 products.map(async (product) => {
-                    console.log('Processing product:', product.id);
-
                     const item = await strapi.db.query("api::product.product").findOne({
                         where: { id: product.id },
                     });
 
                     if (!item) {
-                        console.log('❌ Product not found:', product.id);
                         return null;
                     }
-
-                    console.log('✅ Product found:', item.title, item.price);
 
                     return {
                         price_data: {
@@ -46,15 +39,14 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
             );
 
             const validItems = lineItems.filter(Boolean);
-            console.log('Valid items:', validItems.length);
 
             if (!validItems.length) {
                 ctx.response.status = 400;
-                return { error: "No valid products found for checkout." };
+                return { error: "No valid products found" };
             }
 
             console.log('Creating Stripe session...');
-
+            
             const session = await stripe.checkout.sessions.create({
                 mode: "payment",
                 success_url: `${process.env.CLIENT_URL}?success=true`,
@@ -66,28 +58,22 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
             console.log('✅ Stripe session created:', session.id);
 
+            // TEMPORARILY COMMENTED OUT - Testing if this is causing 500 error
+            /*
             await strapi.service("api::order.order").create({
                 data: {
                     products,
                     stripeId: session.id,
                 },
             });
-
-            console.log('✅ Order saved to database');
+            */
 
             return { stripeSession: session };
-
+            
         } catch (err) {
-            console.error('❌ ERROR in order creation:');
-            console.error('Error name:', err.name);
-            console.error('Error message:', err.message);
-            console.error('Error stack:', err.stack);
-
+            console.error('❌ ERROR:', err.message);
             ctx.response.status = 500;
-            return {
-                error: err.message,
-                details: err.toString()
-            };
+            return { error: err.message };
         }
     },
 }));
