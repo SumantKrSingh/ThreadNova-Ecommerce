@@ -2,9 +2,49 @@
 .products {
   padding: 3rem 5rem;
   display: flex;
+  position: relative;
 
   @include mobile {
     padding: 3rem 2rem;
+  }
+
+  .filter-toggle {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: var(--bg);
+      color: var(--text);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgb(55, 54, 54);
+      z-index: 999;
+      font-size: 1rem;
+      font-weight: 500;
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .overlay {
+    @include mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--nav-bg);
+      z-index: 998;
+    }
   }
 
   .left {
@@ -13,8 +53,60 @@
     height: 100%;
     top: 12rem;
 
+    @include mobile {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 85%;
+      max-width: 35rem;
+      height: 100vh;
+      background: var(--bg);
+      z-index: 999;
+      padding: 6rem 2rem 2rem 2rem;
+      overflow-y: auto;
+      transition: left 0.3s ease-in-out;
+
+      &.open {
+        left: 0;
+      }
+    }
+
+    .closeFilter {
+      display: none;
+
+      @include mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background-color: var(--toggle);
+        border: none;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000;
+        color: #f34a0d;
+
+        &:hover {
+          background: lightpink;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+
     .filterItem {
       margin-bottom: 3rem;
+
+      @include mobile {
+        border-bottom: 1px solid var(--textLite);
+        padding-bottom: 2rem;
+      }
 
       h2 {
         font-weight: 400;

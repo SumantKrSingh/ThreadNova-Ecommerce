@@ -1,15 +1,25 @@
 import "./products.scss";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import List from "../../components/List/List";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../components/Hooks/useFetch";
+import TuneIcon from "@mui/icons-material/Tune";
+import CloseIcon from "@mui/icons-material/Close";
 
 function Products() {
   const catId = parseInt(useParams().id);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const genderFromURL = queryParams.get("gender") || "all";
   const [maxPrice, setMaxPrice] = useState(8000);
   const [sort, setSort] = useState(null);
   const [selectedSubCats, setSelectedSubCats] = useState([]);
-  const [genderFilter, setGenderFilter] = useState("all"); // all, Men, Women
+  const [genderFilter, setGenderFilter] = useState(genderFromURL);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  useEffect(() => {
+    setGenderFilter(genderFromURL);
+  }, [genderFromURL]);
 
   const { data, loading, error } = useFetch(
     `/sub-categories?populate=categories`
@@ -32,7 +42,23 @@ function Products() {
 
   return (
     <div className="products">
-      <div className="left">
+      {/* Filter btn for mobile dev */}
+      <button
+        className="filter-toggle"
+        onClick={() => setFilterOpen(!filterOpen)}
+      >
+        <TuneIcon fontSize="medium" />
+        <span>Filter</span>
+      </button>
+
+      {/* overlay */}
+      {filterOpen && (
+        <div className="overlay" onClick={() => setFilterOpen(false)}></div>
+      )}
+      <div className={`left ${filterOpen ? "open" : ""}`}>
+        <button className="closeFilter" onClick={() => setFilterOpen(false)}>
+          <CloseIcon fontSize="large" />
+        </button>
         {/* Gender Filter Section */}
         <div className="filterItem">
           <h2>Gender</h2>
