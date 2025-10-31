@@ -9,6 +9,7 @@
   --text: #000000;
   --textLite: #5b5e59;
   --nav-bg: #fdfff5b7;
+  --toggle: #000;
 }
 
 .dark {
@@ -16,6 +17,7 @@
   --nav-bg: #100c08a9;
   --text: #FFFDF6;
   --textLite: #5b5e59;
+  --toggle: #fff;
 }
 
 html {
