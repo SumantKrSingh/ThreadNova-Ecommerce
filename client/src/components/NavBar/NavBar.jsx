@@ -183,11 +183,6 @@ function NavBar() {
 
           {/* DarkMode and LightMode */}
           <div className="mobile-settings">
-            <div className="mobile-setting-item">
-              <img src="/images/indianFlag.png" alt="flag" />
-              <span>India</span>
-            </div>
-
             <div className="mobile-setting-item" onClick={toggleTheme}>
               {theme === "dark" ? (
                 <SunnyIcon fontSize="large" />
@@ -196,6 +191,10 @@ function NavBar() {
               )}
 
               <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+            </div>
+            <div className="mobile-setting-item">
+              <img src="/images/indianFlag.png" alt="flag" />
+              <span>India</span>
             </div>
           </div>
         </div>
